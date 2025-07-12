@@ -1,0 +1,22 @@
+.current-weather {
+  background-color: #1E1E1E;
+  color: #FFFFFF;
+  border-radius: 16px;
+  padding: 2rem;
+  margin: 1rem auto;
+  max-width: 600px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+.current-weather h1 {
+  font-size: 4rem;
+  color: #00C9A7;
+  margin-bottom: 0.5rem;
+}
+
+.current-weather p {
+  font-size: 1.1rem;
+  margin: 0.25rem 0;
+  color: #B0BEC5;
+}
