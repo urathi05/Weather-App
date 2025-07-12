@@ -1,0 +1,83 @@
+/* ====== General Reset ====== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ====== Body Styling ====== */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #121212;
+  color: #fff;
+  padding: 2rem;
+}
+
+/* ====== Container for Manual Input Screen ====== */
+.manual-input-screen {
+  width: clamp(90vh, 90vh, 900px);
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  text-align: center;
+}
+
+/* ====== Search Container ====== */
+.search-container {
+  position: relative;
+  margin-top: 1rem;
+}
+
+/* ====== Search Bar ====== */
+.city-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 1.1rem;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  background-color: #1E1E1E;
+  color: #fff;
+  box-shadow: 0 0 0 2px #00C9A7 inset;
+  transition: box-shadow 0.3s ease;
+}
+
+.city-input:focus {
+  box-shadow: 0 0 0 2px #00C9A7, 0 0 10px #00C9A7;
+}
+
+/* ====== Suggestions List ====== */
+.suggestions {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  background-color: #1E1E1E;
+  border-radius: 0 0 8px 8px;
+  max-height: 250px;
+  overflow-y: auto;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.7);
+  border: 1px solid #333;
+  margin-top: 0;
+}
+
+/* ====== Suggestion Items ====== */
+.suggestions li {
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  border-bottom: 1px solid #333;
+  transition: background-color 0.2s ease;
+  color: #fff;
+}
+
+.suggestions li:last-child {
+  border-bottom: none;
+}
+
+.suggestions li:hover {
+  background-color: #2A2A2A;
+}
