@@ -4,8 +4,10 @@ import ForecastWeather from '../../components/WeatherScreen/ForecastWeather/Fore
 export default function WeatherScreen({ data, onRefresh }) {
   return (
     <div className="weather-screen">
-      <CurrentWeather data={data} onRefresh={onRefresh}/>
-      <ForecastWeather data={data} />
+      <div className="weather">
+        <CurrentWeather data={data} onRefresh={onRefresh}/>
+        <ForecastWeather data={data} />
+      </div>
     </div>
   );
 }

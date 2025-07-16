@@ -1,5 +1,6 @@
 import "./ForecastWeather.css";
 import weatherCodeToIcon from "../../../const/weatherIcons";
+import { WiDayShowers } from "react-icons/wi";
 
 function normalizeHourlyField(field) {
   if (!field) return [];
@@ -18,6 +19,7 @@ export default function ForecastWeather({ data }) {
   // Normalize fields safely
   const time = normalizeHourlyField(hourly.time);
   const temperature2m = normalizeHourlyField(hourly.temperature2m);
+  const apparentTemp = normalizeHourlyField(hourly.apparentTemperature);
   const precipitationProbability = normalizeHourlyField(hourly.precipitationProbability);
   const weatherCode = normalizeHourlyField(hourly.weatherCode);
 
@@ -36,6 +38,7 @@ export default function ForecastWeather({ data }) {
 
   const forecastTime = time.slice(startIndex, startIndex + 4);
   const forecastTemp = temperature2m.slice(startIndex, startIndex + 4);
+  const forecastApparent = apparentTemp.slice(startIndex, startIndex + 4);
   const forecastPrecip = precipitationProbability.slice(startIndex, startIndex + 4);
   const forecastWMO = weatherCode.slice(startIndex, startIndex + 4);
 
@@ -45,10 +48,15 @@ export default function ForecastWeather({ data }) {
         const Icon = weatherCodeToIcon[forecastWMO[i]];
         return (
           <div key={i} className="hour-block">
-            <p>{new Date(t).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</p>
-            <div className="weather-icon">{Icon && <Icon size={32} />}</div>
-            <p>{forecastTemp[i].toFixed(1)}°C</p>
-            <p>{forecastPrecip[i]}%</p>
+            <p className="forecast-time">
+              {new Date(t).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+            </p>
+            <div className="weather-icon">
+              {Icon && <Icon size={32} />}
+            </div>
+            <p className="temperature">{forecastTemp[i].toFixed(1)}°C</p>
+            <p className="apparent-temp">Feels like: {forecastApparent[i].toFixed(1)}°C</p>
+            <p className="precipitation"><WiDayShowers />{forecastPrecip[i]}%</p>
           </div>
         );
       })}

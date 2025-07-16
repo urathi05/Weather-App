@@ -1,0 +1,11 @@
+.weather {
+  display: flex;
+  flex-direction: column;
+  align-items: center;       /* Horizontally center children */
+  justify-content: center;   /* Vertically center children if needed */
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;            /* Center container horizontally in viewport */
+  box-sizing: border-box;
+  padding: 1rem 0;
+}

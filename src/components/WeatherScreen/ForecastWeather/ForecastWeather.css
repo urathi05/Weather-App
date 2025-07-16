@@ -1,27 +1,28 @@
 .forecast-weather {
   display: flex;
-  flex-direction: row;       /* Ensures blocks are in a row */
-  flex-wrap: nowrap;         /* Prevent wrapping (or change to wrap for responsive) */
-  justify-content: space-around;
-  align-items: flex-start;   /* Ensures top alignment */
-  padding: 1rem;
-  margin: 1.5rem auto;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+
+  width: 100%;
   max-width: 900px;
+  padding: clamp(1rem, 2vh, 2rem);
+
   background-color: #1E1E1E;
   border-radius: 16px;
   box-shadow: 0 6px 14px rgba(0, 0, 0, 0.5);
-  overflow-x: auto;          /* Let user scroll on narrow screens */
-  gap: 1rem;
 }
 
+
 .hour-block {
-  flex: 0 0 auto;             /* Prevent growing/shrinking */
-  width: 120px;
-  text-align: center;
-  padding: 1rem;
+  flex: 0 0 auto;
+  width: clamp(80px, 22vw, 120px);
+  padding: clamp(0.5rem, 1vw, 1rem);
   background-color: #2A2A2A;
   border-radius: 12px;
   color: #FFFFFF;
+  text-align: center;
+
   transition: transform 0.2s ease, background-color 0.3s ease;
 }
 
@@ -30,19 +31,29 @@
   transform: translateY(-4px);
 }
 
-.hour-block p:first-child {
+.forecast-time {
   font-size: 1rem;
   color: #00C9A7;
   margin-bottom: 0.5rem;
 }
 
-.hour-block p:nth-child(2) {
+.weather-icon {
+  margin: 0.25rem 0;
+}
+
+.temperature {
   font-size: 1.6rem;
   font-weight: bold;
   margin-bottom: 0.25rem;
 }
 
-.hour-block p:last-child {
-  font-size: 1rem;
+.apparent-temp {
+  font-size: 0.9rem;
   color: #B0BEC5;
+  margin-bottom: 0.25rem;
+}
+
+.precipitation {
+  font-size: 1rem;
+  color: #90CAF9;
 }

@@ -29,30 +29,36 @@ function App() {
     handleLocationFail(setAppState);
   }, []);
 
+  let screen;
+
   if (appState === "loading") {
-    return (
+    screen = (
       <LoadingScreen
         onLocationSuccess={locationSuccessHandler}
         onLocationFail={locationFailHandler}
       />
     );
-  }
-
-  if (appState === "refreshing") {
-    return <RefreshingScreen/>;
-  }
-
-  if (appState === "weather") {
-    return (
-      <WeatherScreen data={weatherData} onRefresh={() => handleRefresh(location, setAppState, setWeatherData)}/>
+  } else if (appState === "refreshing") {
+    screen = <RefreshingScreen />;
+  } else if (appState === "weather") {
+    screen = (
+      <WeatherScreen
+        data={weatherData}
+        onRefresh={() => handleRefresh(location, setAppState, setWeatherData)}
+      />
+    );
+  } else if (appState === "manual") {
+    screen = (
+      <ManualScreen
+        searchApi={fetchCities}
+        onCitySelect={handleCitySelect}
+        setAppState={setAppState}
+        setWeatherData={setWeatherData}
+      />
     );
   }
 
-  if (appState === "manual") {
-    return (
-      <ManualScreen searchApi={fetchCities} onCitySelect={handleCitySelect} setAppState={setAppState} setWeatherData={setWeatherData} />
-    )
-  }
+  return <div className="app-screen">{screen}</div>;
 }
 
-export default App
+export default App;
