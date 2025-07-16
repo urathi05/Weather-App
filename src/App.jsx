@@ -54,6 +54,7 @@ function App() {
         onCitySelect={handleCitySelect}
         setAppState={setAppState}
         setWeatherData={setWeatherData}
+        setLocation={setLocation}
       />
     );
   }
