@@ -1,26 +1,58 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, screen, ipcMain } from 'electron';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import fetch from 'node-fetch'; 
+import dotenv from "dotenv";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+dotenv.config();
+const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY || 'YOUR_API_KEY_HERE';
+
 function createWindow() {
+  const { width, height } = screen.getPrimaryDisplay().workAreaSize;
+
   const win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 300,
+    height: 300,
+    x: width - 320,
+    y: height - 320,
+    frame: false,
+    titleBarStyle: "hidden",
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js'), // if you use it
-      nodeIntegration: true,
-      contextIsolation: false,
+      preload: path.join(__dirname, 'preload.js'),
+      nodeIntegration: false,
+      contextIsolation: true,
     },
   });
 
-  win.loadURL('http://localhost:5173'); // Vite dev server
+  win.loadURL('http://localhost:5173'); // React dev server
 }
 
-app.whenReady().then(createWindow);
+// 👇 Electron will respond when your preload script invokes 'get-location'
+ipcMain.handle('get-location', async () => {
+  try {
+    const response = await fetch(`https://www.googleapis.com/geolocation/v1/geolocate?key=${GOOGLE_API_KEY}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ considerIp: true })
+    });
 
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') app.quit();
+    if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
+
+    const data = await response.json();
+    return {
+      latitude: data.location.lat,
+      longitude: data.location.lng,
+      accuracy: data.accuracy
+    };
+  } catch (error) {
+    console.error('[Main] Failed to get location:', error);
+    throw error;
+  }
+});
+
+app.whenReady().then(() => {
+  createWindow();
 });
