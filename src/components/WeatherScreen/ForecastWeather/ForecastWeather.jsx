@@ -9,23 +9,30 @@ function normalizeHourlyField(field) {
 }
 
 export default function ForecastWeather({ data }) {
+  if (!data || !data.hourly) {
+    return <div className="forecast-weather">Loading forecast...</div>;
+  }
+
   const hourly = data.hourly;
 
-  // Normalize each field
+  // Normalize fields safely
   const time = normalizeHourlyField(hourly.time);
   const temperature2m = normalizeHourlyField(hourly.temperature2m);
   const precipitationProbability = normalizeHourlyField(hourly.precipitationProbability);
   const weatherCode = normalizeHourlyField(hourly.weatherCode);
 
-  if (!time.length) {
+  console.log("ForecastWeather data check:", { time, temperature2m });
+
+  if (!time.length || !temperature2m.length) {
     return <div className="forecast-weather">Loading forecast...</div>;
   }
 
   const now = new Date();
   const startIndex = time.findIndex(t => new Date(t).getTime() >= now.getTime());
 
-  // Guard for no future time found
-  if (startIndex === -1) return <div className="forecast-weather">No upcoming forecast available.</div>;
+  if (startIndex === -1) {
+    return <div className="forecast-weather">No upcoming forecast available.</div>;
+  }
 
   const forecastTime = time.slice(startIndex, startIndex + 4);
   const forecastTemp = temperature2m.slice(startIndex, startIndex + 4);
@@ -34,11 +41,11 @@ export default function ForecastWeather({ data }) {
 
   return (
     <div className="forecast-weather">
-      {forecastTime.map((time, i) => {
+      {forecastTime.map((t, i) => {
         const Icon = weatherCodeToIcon[forecastWMO[i]];
         return (
           <div key={i} className="hour-block">
-            <p>{new Date(time).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</p>
+            <p>{new Date(t).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</p>
             <div className="weather-icon">{Icon && <Icon size={32} />}</div>
             <p>{forecastTemp[i].toFixed(1)}°C</p>
             <p>{forecastPrecip[i]}%</p>
