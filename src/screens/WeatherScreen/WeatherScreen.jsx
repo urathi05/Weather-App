@@ -1,5 +1,6 @@
 import CurrentWeather from '../../components/WeatherScreen/CurrentWeather/CurrentWeather';
 import ForecastWeather from '../../components/WeatherScreen/ForecastWeather/ForecastWeather';
+import "./WeatherScreen.css";
 
 export default function WeatherScreen({ data, onRefresh }) {
   return (

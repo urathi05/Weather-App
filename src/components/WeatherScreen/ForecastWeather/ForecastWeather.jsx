@@ -52,7 +52,7 @@ export default function ForecastWeather({ data }) {
               {new Date(t).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
             </p>
             <div className="weather-icon">
-              {Icon && <Icon size={32} />}
+              {Icon && <Icon size={24} />}
             </div>
             <p className="temperature">{forecastTemp[i].toFixed(1)}°C</p>
             <p className="apparent-temp">Feels like: {forecastApparent[i].toFixed(1)}°C</p>

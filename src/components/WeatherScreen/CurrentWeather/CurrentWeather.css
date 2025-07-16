@@ -1,34 +1,61 @@
 .current-weather {
   width: 100%;
-  max-width: 800px;
-  margin-bottom: 2vh;
+  max-width: 260px;
+  margin: 0 auto;
+
   background-color: #1E1E1E;
-  border-radius: 16px;
-  padding: clamp(1rem, 2vh, 2rem);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  border-radius: 12px;
+  padding: 0.5rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* <-- Important for inner alignment */
+  justify-content: center;
   text-align: center;
+
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
 }
 
 
-.current-weather h1 {
-  font-size: clamp(1.5rem, 5vw, 3rem);
+.weather-icon-temp {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.weather-icon-temp h1 {
+  font-size: 1.6rem;
+  margin: 0;
   color: #00C9A7;
-  margin-bottom: 0.5rem;
 }
 
-.current-weather p {
-  font-size: clamp(0.9rem, 1.2vw, 1.2rem);
-  margin: 0.25rem 0;
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  gap: 0.4rem 1rem;
+  margin-top: 0.25rem;
+}
+
+.details-grid p {
+  font-size: 0.75rem;
+  margin: 0;
   color: #B0BEC5;
+  text-align: left;
 }
 
 .refresh-button {
-  color: white;
+  margin-top: 0.4rem;
+  font-size: 0.75rem;
+  padding: 0.35rem 0.6rem;
   background-color: #00C9A7;
-  transition: all 0.2s ease-in-out;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .refresh-button:hover {
-  background-color: #1E1E1E;
-  border-color: #00C9A7;
+  background-color: #017e78;
 }

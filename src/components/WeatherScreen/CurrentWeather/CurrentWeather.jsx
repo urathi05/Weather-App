@@ -16,16 +16,20 @@ export default function CurrentWeather({ data, onRefresh }) {
 
   return (
     <div className="current-weather">
-      <div className="weather-icon">
-        {Icon && <Icon size={64} />}
+      <div className="weather-icon-temp">
+        {Icon && <Icon size={24} />}
+        <h1>{current.temperature2m.toFixed(1)}°C</h1>
       </div>
-      <h1>{current.temperature2m.toFixed(1)}°C</h1>
-      <p>Feels like: {current.apparentTemperature.toFixed(1)}°C</p>
-      <p>Humidity: {current.relativeHumidity2m}%</p>
-      <p>Wind: {current.windSpeed10m.toFixed(1)} km/h {degToDir(current.windDirection10m)}</p>
-      <p>Precipitation: {current.precipitation.toFixed(1)} mm</p>
+
+      <div className="details-grid">
+        <p>Feels like: {current.apparentTemperature.toFixed(1)}°C</p>
+        <p>Humidity: {current.relativeHumidity2m}%</p>
+        <p>Wind: {current.windSpeed10m.toFixed(1)} km/h {degToDir(current.windDirection10m)}</p>
+        <p>Precipitation: {current.precipitation.toFixed(1)} mm</p>
+      </div>
 
       <button className="refresh-button" onClick={onRefresh}>Refresh</button>
     </div>
+
   );
 }

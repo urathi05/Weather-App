@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDebounce } from "use-debounce";
 import "./ManualScreen.css";
 
-export default function ManualScreen({ searchApi, onCitySelect, setAppState, setWeatherData }) {
+export default function ManualScreen({ searchApi, onCitySelect, setAppState, setWeatherData, setLocation }) {
     const [query, setQuery] = useState('');
     const [debouncedQuery] = useDebounce(query, 300);
     const [suggestions, setSuggestions] = useState([]);
@@ -33,7 +33,7 @@ export default function ManualScreen({ searchApi, onCitySelect, setAppState, set
                 {suggestions.length > 0 && (    
                     <ul className="suggestions">
                         {suggestions.map(s => (
-                            <li key={s.id} onClick={async () => await onCitySelect(s, setAppState, setWeatherData)}>
+                            <li key={s.id} onClick={async () => await onCitySelect(s, setAppState, setWeatherData, setLocation)}>
                                 {`${s.name}${s.admin1 ? `, ${s.admin1}` : ''}, ${s.country}`}
                             </li>
                         ))}
