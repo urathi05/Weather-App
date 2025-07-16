@@ -1,5 +1,6 @@
 import { fetchWeatherApi } from 'openmeteo';
 import * as wc from "../utils/weatherCache";
+import normalizeWeatherData from '../utils/normalizeWeather';
 
 export default async function fetchWeather(latitude, longitude) {
     const key = `weather-cache-${latitude.toFixed(2)}-${longitude.toFixed(2)}`;
@@ -7,7 +8,7 @@ export default async function fetchWeather(latitude, longitude) {
     const cachedData = wc.loadWeatherCache(key);
 
     if (cachedData) {
-        return cachedData;
+        return normalizeWeatherData(cachedData);
     }
 
     const params = {
@@ -21,9 +22,9 @@ export default async function fetchWeather(latitude, longitude) {
 
     const responses = await fetchWeatherApi(url, params);
 
-    console.log(responses[0]);
-
     const response = responses[0];
+        console.log("API RESPONSE: ", response);
+
 
     const utcOffsetSeconds = response.utcOffsetSeconds();
     const timezone = response.timezone();
@@ -34,11 +35,9 @@ export default async function fetchWeather(latitude, longitude) {
     const current = response.current();
     const hourly = response.hourly();
 
-    console.log("WEATHER DATA: ", response);
-
     const weatherData = {
         current: {
-            time: new Date((Number(current.time()) + utcOffsetSeconds) * 1000),
+            time: new Date(Number(current.time()) * 1000),
             temperature2m: current.variables(0).value(),
             relativeHumidity2m: current.variables(1).value(),
             apparentTemperature: current.variables(2).value(),
@@ -49,7 +48,7 @@ export default async function fetchWeather(latitude, longitude) {
         },
         hourly: {
             time: [...Array((Number(hourly.timeEnd()) - Number(hourly.time())) / hourly.interval())].map(
-                (_, i) => new Date((Number(hourly.time()) + i * hourly.interval() + utcOffsetSeconds) * 1000)
+                (_, i) => new Date((Number(hourly.time()) + i * hourly.interval()) * 1000)
             ),
             temperature2m: hourly.variables(0).valuesArray(),
             weatherCode: hourly.variables(1).valuesArray(),
@@ -57,6 +56,8 @@ export default async function fetchWeather(latitude, longitude) {
             apparentTemperature: hourly.variables(3).valuesArray(),
         },
     };
+
+    console.log("WEATHER DATA: ", weatherData);
 
     wc.saveWeatherCache(key, weatherData);
 
