@@ -27,10 +27,9 @@ function createWindow() {
     },
   });
 
-  win.loadURL('http://localhost:5173'); // React dev server
+  win.loadURL('http://localhost:5173'); 
 }
 
-// 👇 Electron will respond when your preload script invokes 'get-location'
 ipcMain.handle('get-location', async () => {
   try {
     const response = await fetch(`https://www.googleapis.com/geolocation/v1/geolocate?key=${GOOGLE_API_KEY}`, {
