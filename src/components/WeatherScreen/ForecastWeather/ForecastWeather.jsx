@@ -56,7 +56,7 @@ export default function ForecastWeather({ data }) {
             </div>
             <p className="temperature">{forecastTemp[i].toFixed(1)}°C</p>
             <p className="apparent-temp">Feels like: {forecastApparent[i].toFixed(1)}°C</p>
-            <p className="precipitation"><WiDayShowers />{forecastPrecip[i]}%</p>
+            <p className="precipitation"><WiDayShowers size={12}/>{forecastPrecip[i]}%</p>
           </div>
         );
       })}

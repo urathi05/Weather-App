@@ -1,24 +1,20 @@
 .forecast-weather {
-  width: 100%;
-  max-width: 260px;
+  width: 85%;
   margin: 0 auto;
 
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
 
-  gap: 0.4rem;
-  padding: 0.4rem;
+  padding: 0.75rem 0.4rem;
   background-color: #1E1E1E;
   border-radius: 12px;
   box-sizing: border-box;
 }
 
-
-
 .hour-block {
-  width: clamp(60px, 20%, 80px);
+  width: clamp(60px, 20%, 100%);
   padding: 0.25rem;
   border-radius: 8px;
   background-color: #2A2A2A;
@@ -32,15 +28,9 @@
   justify-content: center;
 }
 
-
 .forecast-time {
   font-size: 0.8rem;
   color: #00C9A7;
-  margin-bottom: 0.3rem;
-}
-
-.weather-icon {
-  margin: 0.1rem 0;
 }
 
 .weather-icon svg {
@@ -49,18 +39,16 @@
 }
 
 .temperature {
-  font-size: 1.2rem; /* Match CurrentWeather temp */
+  font-size: 1.2rem; 
   font-weight: bold;
-  margin-bottom: 0.2rem;
 }
 
 .apparent-temp {
-  font-size: 0.75rem;
+  font-size: 0.9rem;
   color: #B0BEC5;
-  margin-bottom: 0.2rem;
 }
 
 .precipitation {
-  font-size: 0.75rem;
+  font-size: 0.9rem;
   color: #90CAF9;
 }

@@ -1,11 +1,10 @@
 .current-weather {
-  width: 100%;
-  max-width: 260px;
+  width: 85%;
   margin: 0 auto;
 
   background-color: #1E1E1E;
   border-radius: 12px;
-  padding: 0.5rem;
+  padding: 0.75rem 0.5rem;
 
   display: flex;
   flex-direction: column;
@@ -38,7 +37,7 @@
 }
 
 .details-grid p {
-  font-size: 0.75rem;
+  font-size: 0.9rem;
   margin: 0;
   color: #B0BEC5;
   text-align: left;
