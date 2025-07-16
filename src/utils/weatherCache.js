@@ -7,8 +7,11 @@ export function saveWeatherCache(key, data) {
         data
     }
 
+    const expiryDate = new Date(expiry);
+
     localStorage.setItem(key, JSON.stringify(dataToStore));
     console.log("CACHED DATA WITH KEY: ", key);
+    console.log("Expires at: ", expiryDate.toLocaleString());
 }
 
 export function loadWeatherCache(key){
@@ -27,6 +30,9 @@ export function loadWeatherCache(key){
         return null;
     }
 
+    const expiry = new Date(dataToLoad.expiresAt);
+
     console.log("LOADED DATA FROM CACHE, KEY: ", key);
+    console.log("Expires at: ", expiry.toLocaleString());
     return dataToLoad.data;
 }
