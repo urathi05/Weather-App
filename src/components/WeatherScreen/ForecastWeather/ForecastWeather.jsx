@@ -54,8 +54,8 @@ export default function ForecastWeather({ data }) {
             <div className="weather-icon">
               {Icon && <Icon size={24} />}
             </div>
-            <p className="temperature">{forecastTemp[i].toFixed(1)}°C</p>
-            <p className="apparent-temp">Feels like: {forecastApparent[i].toFixed(1)}°C</p>
+            <p className="temperature">{forecastTemp[i].toFixed(0)}°C</p>
+            <p className="apparent-temp">Feels like: {forecastApparent[i].toFixed(0)}°C</p>
             <p className="precipitation"><WiDayShowers size={12}/>{forecastPrecip[i]}%</p>
           </div>
         );
