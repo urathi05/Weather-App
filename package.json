@@ -3,12 +3,14 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "main": "electron/main.js",
   "scripts": {
     "dev": "vite",
-    "electron": "electron electron/main.js",
     "build": "vite build",
+    "electron": "electron electron/main.js",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "package": "npm run build && electron-builder --linux deb"
   },
   "dependencies": {
     "dotenv": "^17.2.0",
@@ -26,10 +28,41 @@
     "@types/react-dom": "^19.1.6",
     "@vitejs/plugin-react": "^4.6.0",
     "electron": "^37.2.1",
+    "electron-builder": "^24.15.2",
     "eslint": "^9.30.1",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^16.3.0",
     "vite": "^7.0.4"
+  },
+  "build": {
+    "appId": "com.urvish.weatherapp",
+    "productName": "WeatherApp",
+    "copyright": "Copyright © 2025",
+    "directories": {
+      "buildResources": "assets",
+      "output": "dist"
+    },
+    "files": [
+      "dist/**",
+      "electron/main.js",
+      "electron/preload.js",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "assets",
+        "to": "assets"
+      },
+      ".env"
+    ],
+    "linux": {
+      "target": "deb",
+      "category": "Utility",
+      "icon": "assets/icon.png",
+      "maintainer": "Urvish Rathi <urvishkrathi@gmail.com>",
+      "description": "Minimal weather widget",
+      "synopsis": "Weather widget with location support"
+    }
   }
 }
