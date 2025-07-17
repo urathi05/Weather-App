@@ -12,7 +12,7 @@ dotenv.config({
     ? path.join(process.resourcesPath, ".env")
     : path.join(__dirname, "../.env")
 });
-const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY || app.getBuildMetadata().GOOGLE_API_KEY;
+const API_KEY = process.env.IPGEOLOCATION_API_KEY;
 
 function createWindow() {
   const { width, height } = screen.getPrimaryDisplay().workAreaSize;
@@ -36,19 +36,17 @@ function createWindow() {
 
 ipcMain.handle('get-location', async () => {
   try {
-    const response = await fetch(`https://www.googleapis.com/geolocation/v1/geolocate?key=${GOOGLE_API_KEY}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ considerIp: true })
+    const response = await fetch(`https://api.ipgeolocation.io/v2/ipgeo?apiKey=${API_KEY}`, {
+      method: 'GET',
+      redirect: "follow"
     });
 
     if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
 
     const data = await response.json();
     return {
-      latitude: data.location.lat,
-      longitude: data.location.lng,
-      accuracy: data.accuracy
+      latitude: Number(data.location.latitude),
+      longitude: Number(data.location.longitude)
     };
   } catch (error) {
     console.error('[Main] Failed to get location:', error);
