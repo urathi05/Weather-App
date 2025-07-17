@@ -1,14 +1,18 @@
 import { app, BrowserWindow, screen, ipcMain } from 'electron';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import fetch from 'node-fetch'; 
+import fetch from 'node-fetch';
 import dotenv from "dotenv";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-dotenv.config();
-const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY || 'YOUR_API_KEY_HERE';
+dotenv.config({
+  path: app.isPackaged
+    ? path.join(process.resourcesPath, ".env")
+    : path.join(__dirname, "../.env")
+});
+const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY || app.getBuildMetadata().GOOGLE_API_KEY;
 
 function createWindow() {
   const { width, height } = screen.getPrimaryDisplay().workAreaSize;
@@ -27,7 +31,7 @@ function createWindow() {
     },
   });
 
-  win.loadURL('http://localhost:5173'); 
+  win.loadFile(path.join(__dirname, "../dist/index.html"));
 }
 
 ipcMain.handle('get-location', async () => {
