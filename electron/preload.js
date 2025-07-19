@@ -1,5 +1,3 @@
-// ✅ preload.js
-
 const { contextBridge, ipcRenderer } = require('electron');
 
 console.log("✅ PRELOAD SCRIPT LOADED");
