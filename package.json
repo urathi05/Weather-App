@@ -10,7 +10,8 @@
     "electron": "electron electron/main.js",
     "lint": "eslint .",
     "preview": "vite preview",
-    "package": "npm run build && electron-builder --linux deb"
+    "package:linux": "npm run build && electron-builder --linux deb",
+    "package:win": "npm run build && electron-builder --win nsis"
   },
   "dependencies": {
     "dotenv": "^17.2.0",
@@ -28,7 +29,7 @@
     "@types/react-dom": "^19.1.6",
     "@vitejs/plugin-react": "^4.6.0",
     "electron": "^37.2.1",
-    "electron-builder": "^24.15.2",
+    "electron-builder": ">=24.15.2",
     "eslint": "^9.30.1",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
@@ -51,7 +52,7 @@
     ],
     "extraResources": [
       {
-        "from": "assets",
+        "from": "public",
         "to": "assets"
       },
       ".env"
@@ -59,10 +60,14 @@
     "linux": {
       "target": "deb",
       "category": "Utility",
-      "icon": "assets/icon.png",
+      "icon": "public/weather-logo.png",
       "maintainer": "Urvish Rathi <urvishkrathi@gmail.com>",
       "description": "Minimal weather widget",
       "synopsis": "Weather widget with location support"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "public/weather-logo.ico"
     }
   }
 }
