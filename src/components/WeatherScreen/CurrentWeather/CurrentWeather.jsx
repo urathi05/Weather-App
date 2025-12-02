@@ -11,21 +11,22 @@ function degToDir(deg) {
 }
 
 export default function CurrentWeather({ data, onRefresh }) {
-  const current = data.current;
+  const current = data.current.data.values;
+  console.log("Current Weather Data:", current);
   const Icon = weatherCodeToIcon[current.weatherCode];
 
   return (
     <div className="current-weather">
       <div className="weather-icon-temp">
         {Icon && <Icon size={24} />}
-        <h1>{current.temperature2m.toFixed(1)}°C</h1>
+        <h1>{current.temperature.toFixed(1)}°C</h1>
       </div>
 
       <div className="details-grid">
-        <p>Feels like: {current.apparentTemperature.toFixed(1)}°C</p>
-        <p>Humidity: {current.relativeHumidity2m}%</p>
-        <p>Wind: {current.windSpeed10m.toFixed(1)} km/h {degToDir(current.windDirection10m)}</p>
-        <p>Precipitation: {current.precipitation.toFixed(1)} mm</p>
+        <p>Feels like: {current.temperatureApparent.toFixed(1)}°C</p>
+        <p>Humidity: {current.humidity}%</p>
+        <p>Wind: {current.windSpeed.toFixed(1)} km/h {degToDir(current.windDirection)}</p>
+        <p>Precipitation: {current.rainIntensity.toFixed(1)} mm</p>
       </div>
 
       <button className="refresh-button" onClick={onRefresh}>Refresh</button>
