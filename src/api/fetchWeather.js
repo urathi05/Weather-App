@@ -1,4 +1,4 @@
-import { fetchWeatherApi } from 'openmeteo';
+import axios from 'axios';
 import * as wc from "../utils/weatherCache";
 import normalizeWeatherData from '../utils/normalizeWeather';
 
@@ -11,55 +11,30 @@ export default async function fetchWeather(latitude, longitude) {
         return normalizeWeatherData(cachedData);
     }
 
-    const params = {
-        "latitude": latitude,
-        "longitude": longitude,
-        "hourly": ["temperature_2m", "weather_code", "precipitation_probability", "apparent_temperature"],
-	    "current": ["temperature_2m", "relative_humidity_2m", "apparent_temperature", "weather_code", "precipitation", "wind_speed_10m", "wind_direction_10m"],
-        "timezone": "auto"
-    };
-    const url = "https://api.open-meteo.com/v1/forecast";
+    const apiKey = import.meta.env.VITE_TOMORROW_API_KEY;
+    const forecastURL = `https://api.tomorrow.io/v4/weather/forecast?location=${latitude}%20${longitude}&apikey=${apiKey}`;
+    const currentURL = `https://api.tomorrow.io/v4/weather/realtime?location=${latitude}%20${longitude}&apikey=${apiKey}`;
 
-    const responses = await fetchWeatherApi(url, params);
+    try {
+        const [forecastResponse, currentResponse] = await Promise.all([
+            axios.get(forecastURL),
+            axios.get(currentURL)
+        ]);
 
-    const response = responses[0];
-        console.log("API RESPONSE: ", response);
+        const forecastData = forecastResponse.data;
+        const currentData = currentResponse.data;
 
+        const hourly = forecastData.timelines.hourly;
 
-    const utcOffsetSeconds = response.utcOffsetSeconds();
-    const timezone = response.timezone();
-    const timezoneAbbreviation = response.timezoneAbbreviation();
-    const lat = response.latitude();
-    const long = response.longitude();
+        const weatherData = {
+            current: currentData,
+            hourly
+        }
 
-    const current = response.current();
-    const hourly = response.hourly();
-
-    const weatherData = {
-        current: {
-            time: new Date(Number(current.time()) * 1000),
-            temperature2m: current.variables(0).value(),
-            relativeHumidity2m: current.variables(1).value(),
-            apparentTemperature: current.variables(2).value(),
-            weatherCode: current.variables(3).value(),
-            precipitation: current.variables(4).value(),
-            windSpeed10m: current.variables(5).value(),
-            windDirection10m: current.variables(6).value(),
-        },
-        hourly: {
-            time: [...Array((Number(hourly.timeEnd()) - Number(hourly.time())) / hourly.interval())].map(
-                (_, i) => new Date((Number(hourly.time()) + i * hourly.interval()) * 1000)
-            ),
-            temperature2m: hourly.variables(0).valuesArray(),
-            weatherCode: hourly.variables(1).valuesArray(),
-            precipitationProbability: hourly.variables(2).valuesArray(),
-            apparentTemperature: hourly.variables(3).valuesArray(),
-        },
-    };
-
-    console.log("WEATHER DATA: ", weatherData);
-
-    wc.saveWeatherCache(key, weatherData);
-
-    return weatherData;
-};
+        wc.saveWeatherCache(key, weatherData);
+        return normalizeWeatherData(weatherData);
+    }   
+    catch (error) {
+        console.error("Error fetching weather data:", error);
+    }
+}
